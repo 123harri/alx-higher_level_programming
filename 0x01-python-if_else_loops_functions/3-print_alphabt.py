@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+#!/usr/bin/python3
+
 for i in range(ord('a'), ord('z') + 1):
-    if chr(i) not in ['q', 'e']:
-        print(f"{chr(i)}", end="")
+    if i != ord('e') and i != ord('q'):
+        print("{:c}".format(i), end="")
