@@ -1,12 +1,11 @@
-import py_compile
-import dis
+#!/usr/bin/python3
 
-py_compile.compile('hidden_4.py')
+def print_sorted_names():
+    import hidden_4
 
-compiled_module = __import__('hidden_4')
+    for name in sorted(dir(hidden_4)):
+        if name[:2] != '__':
+            print("{}".format(name))
 
-module_names = dir(compiled_module)
-
-for name in sorted(module_names):
-    if not name.startswith('__'):
-        print(name)
+if __name__ == "__main__":
+    print_sorted_names()
