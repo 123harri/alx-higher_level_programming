@@ -8,7 +8,7 @@ def square_matrix_simple(matrix=[]):
     - matrix (list of lists): 2-dimensional array.
 
     Returns:
-    - list of lists: New matrix with each value being the square of the corresponding input value.
+    - list of lists
     """
     result_matrix = matrix.copy()
 

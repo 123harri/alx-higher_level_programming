@@ -18,4 +18,3 @@ def uniq_add(my_list=[]):
     result_sum = sum(unique_integers)
     
     return result_sum
-
