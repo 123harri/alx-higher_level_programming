@@ -9,8 +9,7 @@ def only_diff_elements(set_1, set_2):
     - set_2 (set): The second set.
 
     Returns:
-    - set: A set containing elements that are present in only one of the input sets.
+    - set
     """
     only_diff_elements_set = set_1 ^ set_2
-
     return only_diff_elements_set

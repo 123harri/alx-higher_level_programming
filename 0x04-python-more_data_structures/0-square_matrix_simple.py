@@ -10,10 +10,9 @@ def square_matrix_simple(matrix=[]):
     Returns:
     - list of lists: New matrix with each value being the square of the corresponding input value.
     """
-    result_matrix = [[0] * len(row) for row in matrix]
+    result_matrix = matrix.copy()
 
     for i in range(len(matrix)):
-        for j in range(len(matrix[i])):
-            result_matrix[i][j] = matrix[i][j] ** 2
+        result_matrix[i] = list(map(lambda x: x**2, matrix[i]))
 
-    return result_matrix
+    return (result_matrix)

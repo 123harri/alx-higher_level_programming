@@ -9,8 +9,8 @@ def simple_delete(a_dictionary, key=""):
     - key (str): The key to be deleted.
 
     Returns:
-    - a_dictionary (dict): The modified dictionary after deleting the specified key.
+    - a_dictionary
     """
     if a_dictionary.get(key) is not None:
         del a_dictionary[key]
-    return (a_dictionary)
+    return a_dictionary
