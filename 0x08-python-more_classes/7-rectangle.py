@@ -3,13 +3,18 @@
 
 
 class Rectangle:
-    """Defines a rectangle with width and height."""
+    """Defines a rectangle by width, height, and various methods."""
 
     number_of_instances = 0
     print_symbol = "#"
 
     def __init__(self, width=0, height=0):
-        """Initialize the Rectangle instance."""
+        """Initializes a new Rectangle instance.
+
+        Args:
+            width (int): The width of the rectangle (default is 0).
+            height (int): The height of the rectangle (default is 0).
+        """
         self.width = width
         self.height = height
         Rectangle.number_of_instances += 1
@@ -45,11 +50,13 @@ class Rectangle:
             self.__height = value
 
     def area(self):
-        """Return the area of the rectangle."""
+        """Calculate and return the area of the rectangle."""
         return self.__width * self.__height
 
     def perimeter(self):
-        """Return the perimeter of the rectangle."""
+        """Calculate and return the perimeter of the rectangle."""
+        if self.__width == 0 or self.__height == 0:
+            return 0
         return 2 * (self.__width + self.__height)
 
     def __str__(self):
@@ -57,8 +64,8 @@ class Rectangle:
         if self.__width == 0 or self.__height == 0:
             return ""
         return '\n'.join(
-                self.print_symbol * self.__width for _ in range(self.__height)
-                )
+            str(self.print_symbol) * self.__width for _ in range(self.__height)
+            )
 
     def __repr__(self):
         """Return a string representation of the rectangle for recreation."""
