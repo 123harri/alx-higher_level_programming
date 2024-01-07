@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""Definition for a matrix multiplication."""
+
 
 def matrix_mul(m_a, m_b):
     """Multiplies two matrices.
