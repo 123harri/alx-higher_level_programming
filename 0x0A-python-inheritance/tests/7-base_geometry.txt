@@ -1,31 +1,9 @@
-# Test cases for base_geometry.py
--------------------------------------------
+#!/usr/bin/python3
+BaseGeometry = __import__('6-base_geometry').BaseGeometry
 
-case 0: import
->>> BaseGeometry = __import__('base_geometry').BaseGeometry
->>>
+bg = BaseGeometry()
 
--------------------------------------------
-
-case 1: common case
->>> geometry = BaseGeometry()
->>> try:
-...     geometry.area()
-... except Exception as e:
-...     print(e)
-area() is not implemented
->>> try:
-...     geometry.integer_validator("test", 5)
-... except Exception as e:
-...     print(e)
->>> try:
-...     geometry.integer_validator("test", "not_an_integer")
-... except TypeError as e:
-...     print(e)
-test must be an integer
->>> try:
-...     geometry.integer_validator("test", 0)
-... except ValueError as e:
-...     print(e)
-test must be greater than 0
->>>
+try:
+    print(bg.area())
+except Exception as e:
+    print("[{}] {}".format(e.__class__.__name__, e))

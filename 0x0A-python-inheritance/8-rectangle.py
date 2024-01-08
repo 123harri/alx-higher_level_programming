@@ -1,7 +1,3 @@
-#!/usr/bin/python3
-"""Defines a Rectangle class."""
-
-
 class BaseGeometry:
     """A base geometry class."""
 
@@ -31,9 +27,10 @@ class Rectangle(BaseGeometry):
 
     def __init__(self, width, height):
         """Initialize a Rectangle instance with width and height."""
+        super().__init__()  # Call the constructor of the base class
         self.__width = 0
         self.__height = 0
-        self.integer_validator("width", width)
-        self.integer_validator("height", height)
+        super().integer_validator("width", width)
+        super().integer_validator("height", height)
         self.__width = width
         self.__height = height
