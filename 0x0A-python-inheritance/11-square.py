@@ -1,7 +1,3 @@
-#!/usr/bin/python3
-"""Defines a Square class."""
-
-
 class BaseGeometry:
     """A base geometry class."""
 
@@ -58,3 +54,7 @@ class Square(Rectangle):
     def __str__(self):
         """Return a string representation of the square."""
         return f"[Square] {self.__size}/{self.__size}"
+
+    def area(self):
+        """Calculate and return the area of the square."""
+        return self.__size ** 2

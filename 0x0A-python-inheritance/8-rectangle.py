@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""Defines a class Rectangle that inherits from BaseGeometry."""
+
+
 class BaseGeometry:
     """A base geometry class."""
 
