@@ -46,6 +46,7 @@ class Rectangle(Base):
         Args:
             value (int): Value to set for width.
         """
+        self.validate_integer("width", value)
         self.__width = value
 
     @property
@@ -63,6 +64,7 @@ class Rectangle(Base):
         Args:
             value (int): Value to set for height.
         """
+        self.validate_integer("height", value)
         self.__height = value
 
     @property
@@ -80,6 +82,7 @@ class Rectangle(Base):
         Args:
             value (int): Value to set for x.
         """
+        self.validate_integer("x", value, eq=False)
         self.__x = value
 
     @property
@@ -97,17 +100,17 @@ class Rectangle(Base):
         Args:
             value (int): Value to set for y.
         """
+        self.validate_integer("y", value, eq=False)
         self.__y = value
 
-
-def validate_integer(self, name, value, eq=True):
-    """Method for validating the value."""
-    if type(value) != int:
-        raise TypeError("{} must be an integer".format(name))
-    if eq and value < 0:
-        raise ValueError("{} must be >= 0".format(name))
-    elif not eq and value <= 0:
-        raise ValueError("{} must be > 0".format(name))
+    def validate_integer(self, name, value, eq=True):
+        """Method for validating the value."""
+        if type(value) != int:
+            raise TypeError("{} must be an integer".format(name))
+        if eq and value < 0:
+            raise ValueError("{} must be >= 0".format(name))
+        elif not eq and value <= 0:
+            raise ValueError("{} must be > 0".format(name))
 
     def area(self):
         """
@@ -140,26 +143,21 @@ def validate_integer(self, name, value, eq=True):
             str: String representation of the Rectangle.
         """
         return "[Rectangle] ({}) {}/{} - {}/{}".format(
-                self.id, self.x, self.y, self.width, self.height)
+            self.id, self.x, self.y, self.width, self.height)
 
+    def update(self, *args, **kwargs):
+        """Update attributes of the Rectangle
+        instance based on arguments."""
+        if args:
+            self._update(*args)
+        elif kwargs:
+            self._update(**kwargs)
 
-def update(self, *args, **kwargs):
-    """Update attributes of the Rectangle
-    instance based on arguments."""
-    if args:
-        self._update(*args)
-    elif kwargs:
-        self._update(**kwargs)
-
-        def _update(self, id=None, width=None, height=None, x=None, y=None):
-            """Internal method that update instance via */**args."""
-            if id is not None:
-                self.id = id
-            if width is not None:
-                self.width = width
-            if height is not None:
-                self.height = height
-            if x is not None:
-                self.x = x
-            if y is not None:
-                self.y = y
+    def _update(self, id=None, width=None, height=None, x=None, y=None):
+        """Internal method that updates instance via */**args."""
+        if id is not None:
+            self.id = id
+        if width is not None:
+            self.width = width
+        if height is not None:
+            self.height = height
