@@ -1,4 +1,8 @@
 #!/bin/usr/python3
+"""
+Rectangle module containing the Rectangle class.
+"""
+
 from models.base import Base
 
 
