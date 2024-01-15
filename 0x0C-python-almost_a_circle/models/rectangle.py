@@ -6,6 +6,7 @@ Rectangle module containing the Rectangle class.
 
 from models.base import Base
 
+
 class Rectangle(Base):
     """
     Rectangle class inheriting from Base.
@@ -21,13 +22,10 @@ class Rectangle(Base):
             x (int): X coordinate of the rectangle.
             y (int): Y coordinate of the rectangle.
             id (int): If not None, assign it to the id attribute.
-                      Otherwise, increment __nb_objects and assign the new value to the id attribute.
+                      Otherwise, increment __nb_objects
+                      and assign the new value to the id attribute.
         """
         super().__init__(id)
-        self.validate_integer("width", width)
-        self.validate_integer("height", height)
-        self.validate_integer("x", x, eq=False)
-        self.validate_integer("y", y, eq=False)
         self.width = width
         self.height = height
         self.x = x
@@ -105,6 +103,15 @@ class Rectangle(Base):
         self.validate_integer("y", value, eq=False)
         self.__y = value
 
+    def validate_integer(self, name, value, eq=True):
+        """Method for validating the value."""
+        if type(value) != int:
+            raise TypeError("{} must be an integer".format(name))
+        if eq and value < 0:
+            raise ValueError("{} must be >= 0".format(name))
+        elif not eq and value <= 0:
+            raise ValueError("{} must be > 0".format(name))
+
     def area(self):
         """
         Calculate and return the area of the rectangle.
@@ -112,16 +119,21 @@ class Rectangle(Base):
         Returns:
             int: Area of the rectangle.
         """
-        return self.__width * self.__height
+        return self.width * self.height
 
     def display(self):
         """
-        Print the Rectangle instance with the character #, taking into account x and y.
+        Print the Rectangle instance with the character #.
         """
-        for _ in range(self.__y):
-            print()
-        for _ in range(self.__height):
-            print(" " * self.__x + "#" * self.__width)
+        if self.width == 0 or self.height == 0:
+            print("")
+            return
+
+        [print("") for _ in range(self.y)]
+        for _ in range(self.height):
+            [print(" ", end="") for _ in range(self.x)]
+            [print("#", end="") for _ in range(self.width)]
+            print("")
 
     def __str__(self):
         """
@@ -130,16 +142,36 @@ class Rectangle(Base):
         Returns:
             str: String representation of the Rectangle.
         """
-        return "[Rectangle] ({}) {}/{} - {}/{}".format(self.id, self.__x, self.__y, self.__width, self.__height)
+        return "[Rectangle] ({}) {}/{} - {}/{}".format(
+            self.id, self.x, self.y, self.width, self.height)
 
-    def update(self, *args):
-        """
-        Update attributes of the Rectangle instance based on arguments.
-
-        Args:
-            *args: Arguments to update attributes in order (id, width, height, x, y).
-        """
+    def update(self, *args, **kwargs):
+        """Update attributes of the Rectangle
+        instance based on arguments."""
         if args:
-            attrs = ["id", "width", "height", "x", "y"]
-            for i, arg in enumerate(args):
-                setattr(self, attrs[i], arg)
+            self._update(*args)
+        elif kwargs:
+            self._update(**kwargs)
+
+    def _update(self, id=None, width=None, height=None, x=None, y=None):
+        """Internal method that updates instance via */**args."""
+        if id is not None:
+            self.id = id
+        if width is not None:
+            self.width = width
+        if height is not None:
+            self.height = height
+
+    def to_dictionary(self):
+        """Return the dictionary representation of a Rectangle."""
+        return {
+            "id": self.id,
+            "width": self.width,
+            "height": self.height,
+            "x": self.x,
+            "y": self.y
+        }
+
+
+if __name__ == "__main__":
+    pass
