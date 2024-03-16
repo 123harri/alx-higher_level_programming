@@ -30,7 +30,8 @@ def filter_states_by_name(username, password, database, state_name):
             db=database
         )
         cursor = db.cursor()
-        query = f"SELECT * FROM states WHERE name = '{state_name}' ORDER BY id"
+        query = ("SELECT * FROM states WHERE name = '{}' ORDER BY id"
+                .format(state_name))
         cursor.execute(query)
         states = cursor.fetchall()
         for state in states:
