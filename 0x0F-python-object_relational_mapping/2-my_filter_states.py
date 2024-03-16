@@ -1,16 +1,16 @@
 #!/usr/bin/python3
 """
-Script that takes in an argument and displays all values in the
-states table of hbtn_0e_0_usa where name matches the argument.
+Lists all states from the database hbtn_0e_0_usa.
 """
 
 import MySQLdb
 import sys
 
 
-def filter_states_by_name(username, password, database, state_name):
+def list_states_by_name(username, password, database, state_name):
     """
-    Function to filter states by name and display matching values.
+    Function to list all states from the database
+    hbtn_0e_0_usa where name matches the provided argument.
 
     Args:
         username (str): MySQL username.
@@ -30,12 +30,11 @@ def filter_states_by_name(username, password, database, state_name):
             db=database
         )
         cursor = db.cursor()
-        query = ("SELECT * FROM states WHERE name = '{}' ORDER BY id"
-                .format(state_name))
-        cursor.execute(query)
-        states = cursor.fetchall()
-        for state in states:
-            print(state)
+        query = "SELECT * FROM states WHERE name LIKE BINARY %s"
+        cursor.execute(query, (state_name,))
+        rows = cursor.fetchall()
+        for row in rows:
+            print(row)
     except MySQLdb.Error as e:
         print("Error connecting to MySQL:", e)
     finally:
@@ -52,4 +51,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     username, password, database, state_name = sys.argv[1:5]
-    filter_states_by_name(username, password, database, state_name)
+    list_states_by_name(username, password, database, state_name)
