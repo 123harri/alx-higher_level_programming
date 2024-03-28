@@ -8,20 +8,19 @@ Print all commits by: `<sha>: <author name>` (one by line)
 """
 
 if __name__ == '__main__':
-    import sys
     import requests
+    import sys
 
-    repo_name = sys.argv[1]
-    owner_name = sys.argv[2]
+    repo = sys.argv[1]
+    owner = sys.argv[2]
+    i = 0
 
-    url = f"https://api.github.com/repos/{owner_name}/{repo_name}/commits"
-    response = requests.get(url)
+    URL = f"https://api.github.com/repos/{owner}/{repo}/commits"
 
-    if response.status_code == 200:
-        commits = response.json()[:10]  # Limiting to 10 most recent commits
-        for commit in commits:
-            sha = commit['sha']
-            author_name = commit['commit']['author']['name']
-            print(f"<{sha}>: {author_name}")
-    else:
-        print(f"Failed to fetch commits. Status code: {response.status_code}")
+    response = requests.get(URL)
+    commits = response.json()
+
+    for commit in commits[:10]:
+        sha = commit.get('sha')
+        author = commit.get('commit').get('author').get('name')
+        print(f"<{sha}>: {author}")
