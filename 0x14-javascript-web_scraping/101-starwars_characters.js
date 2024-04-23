@@ -3,36 +3,47 @@
 // Import the 'request' module
 const request = require('request');
 
+// Function to fetch character data
+const fetchCharacterData = (characterUrl) => {
+  return new Promise((resolve, reject) => {
+    request(characterUrl, (error, response, body) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      const characterData = JSON.parse(body);
+      resolve(characterData.name);
+    });
+  });
+};
+
+// Function to fetch movie data and print characters
+const fetchAndPrintCharacters = async (movieId) => {
+  try {
+    // Construct the URL for the Star Wars API endpoint
+    const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
+    // Make an HTTP GET request to the specified URL
+    const movieResponse = await new Promise((resolve, reject) => {
+      request(apiUrl, (error, response, body) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(JSON.parse(body));
+      });
+    });
+    // Iterate through each character and print their name
+    for (const characterUrl of movieResponse.characters) {
+      const characterName = await fetchCharacterData(characterUrl);
+      console.log(characterName);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 // Get the movie ID from command-line argument
 const movieId = process.argv[2];
 
-// Construct the URL for the Star Wars API endpoint
-const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
-
-// Make an HTTP GET request to the specified URL
-request(apiUrl, (error, response, body) => {
-  // Check for error during the request
-  if (error) {
-    console.error('Error:', error);
-    return;
-  }
-
-  // Parse the JSON response body
-  const movieData = JSON.parse(body);
-
-  // Iterate through each character and print their name
-  movieData.characters.forEach(characterUrl => {
-    // Make a request to fetch data for the character
-    request(characterUrl, (error, response, body) => {
-      // Check for error during the request
-      if (error) {
-        console.error('Error fetching character data:', error);
-        return;
-      }
-      // Parse the character data
-      const characterData = JSON.parse(body);
-      // Print the character name
-      console.log(characterData.name);
-    });
-  });
-});
+// Call the main function
+fetchAndPrintCharacters(movieId);
