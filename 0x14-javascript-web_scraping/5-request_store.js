@@ -1,29 +1,23 @@
 #!/usr/bin/node
-
 // Import the 'request' module
 const request = require('request');
 // Import the 'fs' module
 const fs = require('fs');
 
-// Get the URL to request and file path from command-line arguments
-const url = process.argv[2];
-const filePath = process.argv[3];
-
-// Make a GET request to the specified URL
-request.get(url, (error, response, body) => {
-  // If an error occurred during the request, print the error message
-  if (error) {
-    console.error(error);
-    return;
+// Make a GET request using 'request' module to the specified URL
+request.get(process.argv[2], (err, response, body) => {
+  // Check for error during the request
+  if (err) {
+    // Print the error
+    console.log(err);
+  } else {
+    // Write the response body to a file using 'fs' module
+    fs.writeFile(process.argv[3], body, 'utf-8', (err) => {
+      // Check for error during file write operation
+      if (err) {
+        // Print the error
+        console.log(err);
+      }
+    });
   }
-
-  // Write the response body to the specified file path in UTF-8 encoding
-  fs.writeFile(filePath, body, 'utf8', (err) => {
-    // If an error occurred while writing to the file, print the error message
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(`Webpage content successfully stored in ${filePath}`);
-  });
 });

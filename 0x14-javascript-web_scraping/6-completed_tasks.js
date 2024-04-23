@@ -6,42 +6,40 @@ const request = require('request');
 // Get the API URL from command-line arguments
 const apiUrl = process.argv[2];
 
-// Make a GET request to the specified URL
-request(apiUrl, function (error, response, body) {
-  // If an error occurred during the request or the status code is not 200, print the error message
-  if (error || response.statusCode !== 200) {
-    console.error('Error:', error || `Status code: ${response.statusCode}`);
-    return;
-  }
+// Make a GET request using 'request' module to the specified URL
+request(apiUrl, function (err, response, body) {
+  // Check for successful response
+  if (!err && response.statusCode === 200) {
+    try {
+      // Parse the JSON response body
+      const todos = JSON.parse(body);
 
-  // Try parsing the JSON response body
-  try {
-    // Parse the JSON response body
-    const todos = JSON.parse(body);
+      // Object to store completed tasks per user
+      const completedTasks = {};
 
-    // Initialize an object to store the count of completed tasks for each user ID
-    const completed = {};
-
-    // Iterate through each task
-    todos.forEach((todo) => {
-      // Check if the task is completed
-      if (todo.completed) {
-        // Increment the count of completed tasks for the user ID
-        if (completed[todo.userId] === undefined) {
-          completed[todo.userId] = 1;
-        } else {
-          completed[todo.userId]++;
+      // Iterate through todos to count completed tasks per user
+      todos.forEach((todo) => {
+        if (todo.completed) {
+          // Increment completed tasks count for the user
+          if (completedTasks[todo.userId] === undefined) {
+            completedTasks[todo.userId] = 1;
+          } else {
+            completedTasks[todo.userId]++;
+          }
         }
-      }
-    });
+      });
 
-    // Format the output object with single quotes around the keys
-    const output = `{${Object.entries(completed).map(([key, value]) => ` '${key}': ${value}`).join(',\n ')} }`;
+      // Convert completed tasks object to string format
+      const output = `{${Object.entries(completedTasks).map(([key, value]) => ` '${key}': ${value}`).join(',\n ')} }`;
 
-    // Print the output object
-    console.log(Object.keys(completed).length > 2 ? output : completed);
-  } catch (parseError) {
-    // If an error occurred while parsing JSON, print the error message
-    console.error('Error parsing JSON:', parseError);
+      // Print the completed tasks per user
+      console.log(Object.keys(completedTasks).length > 2 ? output : completedTasks);
+    } catch (parseError) {
+      // Handle JSON parsing error
+      console.error('Error parsing JSON:', parseError);
+    }
+  } else {
+    // Handle request error
+    console.error('Error:', err);
   }
 });

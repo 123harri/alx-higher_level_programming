@@ -1,18 +1,14 @@
 #!/usr/bin/node
 
-// Import the built-in Node.js 'fs' module.
 const fs = require('fs');
+// Include the built-in Node.js 'fs' module.
 
-// Get the file path and string to write from command-line arguments.
-const filePath = process.argv[2];
-const content = process.argv[3];
+fs.writeFile(process.argv[2], process.argv[3], 'utf8', err => {
+  // Use fs.writeFile() to write data to a file specified as the third command-line argument (process.argv[2]).
+  // The data to be written is taken from the fourth command-line argument (process.argv[3]).
 
-// Write the string to the specified file in UTF-8 encoding.
-fs.writeFile(filePath, content, 'utf8', (err) => {
-  // If an error occurs during the writing process, print the error object to the console.
   if (err) {
+    // If an error occurs during the write operation, the 'err' parameter will contain an error object.
     console.error(err);
-    return;
   }
-  console.log('File written successfully!');
 });
